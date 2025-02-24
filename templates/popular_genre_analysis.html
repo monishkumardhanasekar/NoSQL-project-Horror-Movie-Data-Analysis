@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Horror Genre Analysis</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 1000px; /* Increased container width */
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex; /* Use flexbox to create a two-column layout */
+            align-items: stretch; /* Stretch columns to full height */
+        }
+
+        .left-column,
+        .right-column {
+            flex: 1; /* Equal width for both columns */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+        }
+
+        .top-movies {
+            margin-top: 20px;
+        }
+
+        .top-movies ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .top-movies li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="left-column">
+            <!-- Display top movies by category on the left side -->
+            <div class="top-movies">
+                <h2>Top Horror Movies by Category</h2>
+                <ul>
+                    {% for category, movie in top_movies_by_category.items() %}
+                        <li><strong>{{ category }}:</strong> {{ movie }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <h1>Popular Horror Genre Analysis</h1>
+
+            {% if avg_popularity_by_category %}
+            <!-- Create a canvas element for the pie chart on the right side -->
+            <canvas id="genrePieChart" width="400" height="400"></canvas>
+
+            <!-- Parse the JSON data for average popularity by category -->
+            <script>
+                var avgPopularityData = JSON.parse('{{ avg_popularity_by_category | tojson | safe }}');
+                console.log(avgPopularityData);
+                // Extract genre names and popularity values
+                var genres = Object.keys(avgPopularityData);
+                var popularityValues = Object.values(avgPopularityData);
+                console.log(genres);
+                console.log(popularityValues);
+                // Get the canvas element
+                var ctx = document.getElementById('genrePieChart').getContext('2d');
+
+                // Define distinct colors for each category
+                var distinctColors = [
+                '#FF0000', 
+                '#00FF00', 
+                '#0000FF', 
+                '#FFFF00', 
+                '#FF00FF', 
+                '#00FFFF', 
+                '#FFA500', 
+                '#800080', 
+                '#008080', 
+                '#FF4500', 
+                '#7CFC00', 
+                '#8A2BE2', 
+                '#FFD700', 
+                '#00FF7F', 
+                '#8B0000', 
+                '#000080', 
+                ];
+
+                // Create a pie chart with distinct colors
+                var pieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: genres,
+                        datasets: [{
+                            data: popularityValues,
+                            backgroundColor: distinctColors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true, // Changed to true to maintain aspect ratio
+                        title: {
+                            display: true,
+                            text: 'Average Popularity by Genre',
+                            fontSize: 18,
+                            fontColor: '#333',
+                        }
+                    }
+                });
+            </script>
+
+            {% else %}
+            <p>No data available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+
+</html>

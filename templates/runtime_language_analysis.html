@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runtime Language Analysis</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Runtime Language Analysis</h1>
+
+        <!-- Create a responsive canvas for the chart -->
+        <div class="container-fluid">
+            <canvas id="runtimeLanguageChart" class="chart" style="display: block; box-sizing: border-box; height: 550px; width: 909px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Your data values
+        var languageData = JSON.parse('{{ language_data | tojson | safe }}');
+
+        // Create a Chart.js chart with a clustered column chart
+        var ctx = document.getElementById('runtimeLanguageChart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(languageData),
+                datasets: Object.keys(languageData[Object.keys(languageData)[0]]).map(function (category) {
+                    return {
+                        label: category.charAt(0).toUpperCase() + category.slice(1),  // Capitalize first letter
+                        data: Object.keys(languageData).map(function (lang) {
+                            return languageData[lang][category];
+                        }),
+                        backgroundColor: getRandomColor(),
+                        borderWidth: 1
+                    };
+                })
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Allow chart to be responsive
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Languages'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Audience Preference'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to generate random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>

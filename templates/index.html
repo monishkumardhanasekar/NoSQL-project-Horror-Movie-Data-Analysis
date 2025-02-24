@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror Movies by Decade</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s; /* Add transition effect */
+        }
+
+        form:hover {
+            transform: scale(1.05); /* Enlarge the form on hover */
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Queries for Horror Movies Dataset</h1>
+
+    <div class="container">
+        <form action="/franchise_nonfranchise_analysis" method="POST">
+            <button type="submit">Franchise Analysis</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <form action="/popular_genre_analysis" method="POST">
+            <button type="submit">Popular Genre Analysis</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <form action="/month_profitTrend_analysis" method="POST">
+            <button type="submit">Month Profit Trend Analysis</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <form action="/runtime_language_analysis" method="POST">
+            <button type="submit">Runtime Language Analysis</button>
+        </form>
+    </div>
+</body>
+</html>

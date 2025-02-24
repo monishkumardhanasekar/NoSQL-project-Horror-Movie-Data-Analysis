@@ -1,0 +1,395 @@
+@month-1-rev:60px;
+@month-2-rev:80px;
+@month-3-rev:90px;
+@month-4-rev:110px;
+@month-5-rev:130px;
+@month-6-rev:140px;
+@month-7-rev:145px;
+@month-8-rev:160px;
+
+@month-1-ord:@month-1-rev + 10px;
+@month-2-ord:@month-2-rev + 20px;
+@month-3-ord:@month-3-rev + 10px;
+@month-4-ord:@month-4-rev + 30px;
+@month-5-ord:@month-5-rev + 40px;
+@month-6-ord:@month-6-rev + 60px;
+@month-7-ord:@month-7-rev + 40px;
+@month-8-ord:@month-8-rev + 60px;
+
+@month-1-cust:@month-1-ord + 20px;
+@month-2-cust:@month-2-ord + 20px;
+@month-3-cust:@month-3-ord + 30px;
+@month-4-cust:@month-4-ord + 30px;
+@month-5-cust:@month-5-ord + 10px;
+@month-6-cust:@month-6-ord + 40px;
+@month-7-cust:@month-5-ord + 30px;
+@month-8-cust:@month-6-ord + 30px;
+
+.list-reset {
+  margin:0;
+  padding:0;
+  list-style-type:none;
+}
+
+* { box-sizing:border-box; }
+
+html {
+  background:#212121;
+}
+
+body {
+  font-family:"Helvetica",sans-serif;
+  padding:50px 0;
+}
+
+.info-graph-container {
+  perspective:800;
+  transform-style: preserve-3d;
+  width:1200px;
+  margin:0 auto;
+}
+
+.info-graph {
+  margin:0 auto 2em auto;
+  padding:2em 0 0 0;
+  width:730px;
+  position:relative;
+   animation:	value-fade 0.2s 0 1 forwards linear,
+    					graph-tip 3s 0 1 forwards linear,
+    					graph-rotate 12s 11s 1 forwards linear;
+  //animation-play-state:paused;
+  &.year-revenues {
+  	&:before {
+    	content:"Orders & Revenues 2012";
+      text-align:center;
+      display:block;
+      padding:0.5em 0 2em 0;
+      color:#666;
+      text-shadow:0 1px 1px rgba(0,0,0,0.9);
+    }
+  }
+}
+
+input[type="checkbox"]#start-graph:checked {
+	~ .info-graph {
+  	animation-play-state:running;
+    li span {
+    	animation-play-state:running;
+    }
+  }
+}
+
+.axis {
+  .list-reset;
+  &.vertical {
+  	height:300px;
+    border-right:2px groove #444;
+    float:left;
+    li {
+    	.list-reset;
+      display:block;
+      width:8px;
+      border-top:2px groove #444;
+      height:30px;
+    }
+  }
+  &.horizontal {
+  	.list-reset;
+    display:block;
+    border-bottom:2px groove #444;
+    li {
+    	.list-reset;
+      display:inline-block;
+      height:300px;
+      width:52px;
+      position:relative;
+      margin:0 4px -4px 0;
+      box-shadow:inset 0 0 4px rgba(0,0,0,0.8);
+      z-index:10;
+      .month-name {
+      	position:absolute;
+        color:#666;
+        bottom:-18px;
+        display:block;
+        left:0;
+        right:0;
+        text-align:center;
+        text-transform:uppercase;
+        font-size:12px;
+      }
+      .value {
+        position:absolute;
+        color:#DDD;
+        top:-20px;
+        font-size:12px;
+        font-weight:bold;
+        display:block;
+        text-align:center;
+        left:0;
+        right:0;
+        opacity:0;
+        text-shadow:0 1px 1px rgba(0,0,0,0.9);
+        animation:value-fade 2s 25s 1 forwards linear;
+      }
+      .rev-bar,
+      .ord-bar,
+      .cust-bar {
+      	width:50px;
+        display:block;
+        margin:0;
+        background: -webkit-linear-gradient(left, #cb60b3 0%,#c146a1 50%,#a80077 51%,#db36a4 100%); /* Chrome10+,Safari5.1+ */
+        position:absolute;
+        bottom:0;
+        left:1px;
+        height:0px;
+        border-bottom:none;
+        box-shadow:inset 0 0 4px rgba(0,0,0,0.8);
+        animation-duration: 1s;
+        animation-iteration-count: 1;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+        //animation-play-state:paused;
+      }
+      .ord-bar {
+        background: -webkit-linear-gradient(left, #b7deed 0%,#71ceef 50%,#21b4e2 51%,#b7deed 100%); /* Chrome10+,Safari5.1+ */
+      }
+      .cust-bar {
+      	background: -webkit-linear-gradient(left, #ffb76b 0%,#ffa73d 50%,#ff7c00 51%,#ff7f04 100%); /* Chrome10+,Safari5.1+ */
+        border-radius:2px 2px 0 0;
+      }
+      &:nth-child(1) {
+        .rev-bar {	
+          animation-name:rev-month-1;
+          animation-delay:0s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-1;
+          animation-delay:4s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-1;
+          animation-delay:8s;
+        }
+      }
+      &:nth-child(2) {
+        .rev-bar {
+          animation-name:rev-month-2;
+          animation-delay:0.5s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-2;
+          animation-delay:4.5s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-2;
+          animation-delay:8.5s;
+        }
+      }
+      &:nth-child(3) {
+        .rev-bar {	
+          animation-name:rev-month-3;
+          animation-delay:1s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-3;
+          animation-delay:5s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-3;
+          animation-delay:9s;
+        }
+      }
+      &:nth-child(4) {
+        .rev-bar {	
+          animation-name:rev-month-4;
+          animation-delay:1.5s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-4;
+          animation-delay:5.5s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-4;
+          animation-delay:9.5s;
+        }
+      }
+      &:nth-child(5) {
+        .rev-bar {	
+          animation-name:rev-month-5;
+          animation-delay:2s;
+        }
+          .ord-bar {	
+          animation-name:ord-month-5;
+          animation-delay:6s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-5;
+          animation-delay:10s;
+        }
+      }
+      &:nth-child(6) {
+        .rev-bar {	
+          animation-name:rev-month-6;
+          animation-delay:2.5s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-6;
+          animation-delay:6.5s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-6;
+          animation-delay:10.5s;
+        }
+      }
+      &:nth-child(7) {
+        .rev-bar{	
+          animation-name:rev-month-7;
+          animation-delay:3s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-7;
+          animation-delay:7s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-7;
+          animation-delay:11s;
+        }
+      }
+      &:nth-child(8) {
+        .rev-bar {	
+          animation-name:rev-month-8;
+          animation-delay:3.5s;
+        }
+        .ord-bar {	
+          animation-name:ord-month-8;
+          animation-delay:7.5s;
+        }
+        .cust-bar {	
+          animation-name:cust-month-8;
+          animation-delay:11.5s;
+        }
+      }
+    }
+  }
+}
+
+@keyframes graph-tip {
+  0% { transform: rotate3d(1, 0, 0, 103.5deg) }
+  100% { transform: rotate3d(1, 0, 0, 0deg); }
+}
+
+@keyframes graph-rotate {
+  0% { transform: rotate3d(0, 1, 0, 0deg); }
+  20% { transform: rotate3d(0, 1, 0, 180deg); }
+  40% { transform: rotate3d(0, 1, 0, 0deg); }
+  50% { transform: rotate3d(0, 1, 0, 0deg); }
+  60% { transform: rotate3d(0, 0, 1, 180deg); }
+  70% { transform: rotate3d(0, 0, 1, 0deg); }
+  80% { transform: rotate3d(1, 1, 1, 180deg); }
+  90% { transform: rotate3d(1, 1, 1, -360deg); }
+  100% { transform: rotate3d(1, 1, 1, 0deg); }
+}
+
+@keyframes rev-month-1 {
+  0% { height:0; }
+  100% { height:@month-1-rev; }
+}
+@keyframes rev-month-2 {
+  0% { height:0; }
+  100% { height:@month-2-rev; }
+}
+@keyframes rev-month-3 {
+  0% { height:0; }
+  100% { height:@month-3-rev; }
+}
+@keyframes rev-month-4 {
+  0% { height:0; }
+  100% { height:@month-4-rev; }
+}
+@keyframes rev-month-5 {
+  0% { height:0; }
+  100% { height:@month-5-rev; }
+}
+@keyframes rev-month-6 {
+  0% { height:0; }
+  100% { height:@month-6-rev; }
+}
+@keyframes rev-month-7 {
+  0% { height:0; }
+  100% { height:@month-7-rev; }
+}
+@keyframes rev-month-8 {
+  0% { height:0; }
+  100% { height:@month-8-rev; }
+}
+
+@keyframes ord-month-1 {
+  0% { height:0; }
+  100% { height:@month-1-ord; }
+}
+@keyframes ord-month-2 {
+  0% { height:0; }
+  100% { height:@month-2-ord; }
+}
+@keyframes ord-month-3 {
+  0% { height:0; }
+  100% { height:@month-3-ord; }
+}
+@keyframes ord-month-4 {
+  0% { height:0; }
+  100% { height:@month-4-ord; }
+}
+@keyframes ord-month-5 {
+  0% { height:0; }
+  100% { height:@month-5-ord; }
+}
+@keyframes ord-month-6 {
+  0% { height:0; }
+  100% { height:@month-6-ord; }
+}
+@keyframes ord-month-7 {
+  0% { height:0; }
+  100% { height:@month-7-ord; }
+}
+@keyframes ord-month-8 {
+  0% { height:0; }
+  100% { height:@month-8-ord; }
+}
+
+@keyframes cust-month-1 {
+  0% { height:0; }
+  100% { height:@month-1-cust; }
+}
+@keyframes cust-month-2 {
+  0% { height:0; }
+  100% { height:@month-2-cust; }
+}
+@keyframes cust-month-3 {
+  0% { height:0; }
+  100% { height:@month-3-cust; }
+}
+@keyframes cust-month-4 {
+  0% { height:0; }
+  100% { height:@month-4-cust; }
+}
+@keyframes cust-month-5 {
+  0% { height:0; }
+  100% { height:@month-5-cust; }
+}
+@keyframes cust-month-6 {
+  0% { height:0; }
+  100% { height:@month-6-cust; }
+}
+@keyframes cust-month-7 {
+  0% { height:0; }
+  100% { height:@month-7-cust; }
+}
+@keyframes cust-month-8 {
+  0% { height:0; }
+  100% { height:@month-8-cust; }
+}
+
+@keyframes value-fade {
+	0% { opacity:0.01; }
+  100% { opacity:1.0; }
+}

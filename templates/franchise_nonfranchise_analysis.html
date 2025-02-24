@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchise vs Non-Franchise Analysis</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Franchise vs Non-Franchise Analysis</h1>
+
+        <!-- Create a responsive canvas for the chart -->
+        <div class="container-fluid">
+            <canvas id="franchise-nonfranchise-chart" class="chart" style="display: block; box-sizing: border-box; height: 500px; width: 660px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Your data values
+        var decades = JSON.parse('{{ decades | tojson | safe }}');
+        var franchiseData = JSON.parse('{{ franchise_data | tojson | safe }}');
+        var nonfranchiseData = JSON.parse('{{ nonfranchise_data | tojson | safe }}');
+
+        // Create a Chart.js chart with clustered column chart
+        var ctx = document.getElementById('franchise-nonfranchise-chart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: decades,
+                datasets: [
+                    {
+                        label: 'Franchise',
+                        data: Object.keys(franchiseData).map(function (decade) { return franchiseData[decade]; }),
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)', // Adjust color as needed
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Non-Franchise',
+                        data: Object.keys(nonfranchiseData).map(function (decade) { return nonfranchiseData[decade]; }),
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Adjust color as needed
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Allow chart to be responsive
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Decade'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Popularity'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Adjust the canvas size for responsiveness
+        var canvas = document.getElementById('franchise-nonfranchise-chart');
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+    </script>
+</body>
+
+</html>

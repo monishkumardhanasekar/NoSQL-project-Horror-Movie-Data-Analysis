@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month-wise Profit Trend Analysis</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%; /* Set max-width to 100% for responsiveness */
+            margin: 20px auto;
+        }
+
+        canvas {
+            width: 100%; /* Set canvas width to 100% for responsiveness */
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Month-wise Profit Trend Analysis</h1>
+
+        <!-- Create a responsive canvas for the chart -->
+        <div class="container-fluid">
+            <canvas id="monthProfitChart" class="chart" style="display: block; box-sizing: border-box; height: 600px; width: 908px;"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Your data values
+        var months = JSON.parse('{{ months | tojson | safe }}');
+        var avgProfitData = JSON.parse('{{ avg_profit_data | tojson | safe }}');
+
+        // Create a Chart.js chart with a bar chart
+        var ctx = document.getElementById('monthProfitChart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Average Profit',
+                        data: Object.keys(avgProfitData).map(function (month) { return avgProfitData[month]; }),
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Adjust color as needed
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Allow chart to be responsive
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Average Profit'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
